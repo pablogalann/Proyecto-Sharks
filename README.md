@@ -59,38 +59,76 @@ Comprobamos que en la columna 'HrefFormula' hay 1 valores nulos
 
 Lineas de codigo basicas de busqueda/modificacion
 
-1º ¿ Cuantos nulos hay por columna? ¿Cuantos nulos tengo que modificar?
+A ¿ Cuantos nulos hay por columna? ¿Cuantos nulos tengo que modificar?
 
 nan_cols = data.isna().sum()
 nan_cols[nan_cols>0]
 
-2º ¿En que fila estan estos nulos? Contextualizamos con la informacion en el resto de columnas
+B ¿En que fila estan estos nulos? Contextualizamos con la informacion en el resto de columnas
 
 data[data['nombrecolumna'].isna()]
 
-3º) SUSTITUIR NULOS por 'Unknown' ceros .... Para poder pasarle la lista de valores a la funcion, nan no interan
+C SUSTITUIR NULOS por 'Unknown' ceros .... Para poder pasarle la lista de valores a la funcion, nan no interan
 
 data1.nombrecolumna.fillna('Unknown',inplace = True) data1.nombrecolumna.fillna(0,inplace = True)
 
-4º ¿ QUE VALORES/OBJETOS HAY en esa columna? Buscamos valores nan y/o inconsistente
+D ¿ QUE VALORES/OBJETOS HAY en esa columna? Buscamos valores nan y/o inconsistente
 
 data.nombrecolumna.unique()
 
-5º ¿ CUANTOS valores/objetos/elementos hay en esa columna? Buscamos la CANTIDAD de valores inconsistentes
+E ¿ CUANTOS valores/objetos/elementos hay en esa columna? Buscamos la CANTIDAD de valores inconsistentes
 
 data1.Age.value_counts()
 
-6º USO DE FILTROS DE COMPARACIÓN
+F USO DE FILTROS DE COMPARACIÓN
 
 bad_index = df.nombrecolumna[(df.nombrecolumna == 'condicional') & (df.nombrecolumna=='condicional')].index
 
-7º USO DE FUNCIONES PARA LIMPIEZA DE DATOS INCONSISTENTES, DEFINIR FUNCIÓN.
+G USO DE FUNCIONES PARA LIMPIEZA DE DATOS INCONSISTENTES, DEFINIR FUNCIÓN.
 
-8º REEMPLAZAR DATOS INCONSISTENTES POR AQUELLOS QUE CONSIDEREMOS APROPIEADOS
+H REEMPLAZAR DATOS INCONSISTENTES POR AQUELLOS QUE CONSIDEREMOS APROPIEADOS
 
 data.nombrecolumna = data1.nombrecolumna.str.replace('reemplazable','reemplazo')
 
 data1.loc[indice fila ,'nombrecolumna'] = 'nuevo valor'
 
+-10º) EXPORTAMOS LA TABLA DE PANDA A EXCEL
+
+%pip install xlwt
+
+data1.to_excel(r'C:\Users\pablo\2.5.-Proyecto-Sharks\data\nombrearchivocvs.xls', index=False)
+
+
+
+CASO AGE:
+
+1º Localizamos los valores nulos y los sustituimos.
+2º Observamos un alto contenido de valores inconsistentes, que no responden a tipo entero, y nos impiden hacer operaciones aritmeticas
+3º Realizamos una funcion que limpie dichos valores, buscando patrones de repetición y los convierta a enteros
+4º La funcion de limpieza no es capaz de limpiar todo y tenemos que utilizar el replace.
+5º Una vez con los datos limpios y enteros realizamos por ejemplo la media
+
+
+CASO SPECIE:
+
+1º Localizamos los valores nulos y los sustituimos.
+2º Observamos un alto contenido de valores inconsistentes
+3º Realizamos una funcion que limpie dichos valores, considerando los 20 tiburones mas comunes como una muestra representativa de todos aquellos que aperecen
+4º La funcion de limpieza no es capaz de limpiar todo y tenemos que utilizar el replace.
+
+
+CASO FATAL:
+
+1º Localizamos los valores nulos
+2º Observamos en un golpe de vista que muchos de los valores nan estan asociados a la columna Type invalid
+3º Según la descripción los valores invalidos son aquellos que no tienen validez a la hora de contabilizarlos como ataque real.
+4º Prescindimos de las filas en donde se produce este paralelismo entre Type y Fatal, ya que a mi modo de ver no aportan informacion relevante
+
+CASO ACTIVITY:
+
+1º Localizamos los valores nulos y los sustituimos.
+2º Observamos un alto contenido de valores inconsistentes
+3º Realizamos una funcion que limpie dichos valores, agrupando las actividades mas representativas.
+4º La funcion de limpieza no es capaz de limpiar todo y tenemos que utilizar el replace.
 
 
